@@ -1,7 +1,52 @@
 # K-Bus-System
 
 
+## 🚀 Git Branch Guide
 
+### 📌 브랜치 전략
+- `main` : 배포용 (안정 버전)
+- `dev` : 개발 통합 브랜치
+- `feature/*` : 기능 개발 브랜치
+
+---
+
+### 🛠️ 프로젝트 클론 후 설정 방법
+
+```bash
+# 1. 레포지토리 클론
+git clone https://github.com/K-Bus/k-bus-system.git
+
+# 2. 프로젝트 디렉토리 이동
+cd k-bus-system
+
+# 3. 원격 브랜치 가져오기
+git fetch origin
+
+# 4. dev 브랜치 생성 및 체크아웃
+git checkout -b dev origin/dev
+```
+
+```bash
+# dev 브랜치 최신화
+
+git checkout dev
+
+git pull origin dev
+
+# feature 브랜치 생성
+
+git checkout -b feature/기능명
+
+# 작업 후 커밋
+
+git add .
+
+git commit -m "feat: 기능 설명"
+
+# 원격 브랜치에 push
+
+git push origin feature/기능명
+```
 
 ## 📌 Commit Convention
 
