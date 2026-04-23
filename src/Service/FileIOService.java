@@ -1,29 +1,30 @@
 package Service;
 
-import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.*;
 
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import DTO.Reservation;
 import DTO.Schedule;
 
-class FileIOService {
+public class FileIOService {
     private final BufferedReader CityBufferedReader;
     private final BufferedReader ScheduleBufferedReader;
     
-    FileIOService() throws IOException {
+    public FileIOService() throws IOException {
     	//절대경로로 박으면 배포 시 환경 다름으로 인한 예외 방지
 		CityBufferedReader = Files.newBufferedReader(Paths.get("data", "cities.txt"), StandardCharsets.UTF_8);
 		ScheduleBufferedReader = Files.newBufferedReader(Paths.get("data", "schedule.txt"), StandardCharsets.UTF_8);
     }
 	
     //cities.txt : 평문 읽기
-	Map<Integer, String> readCities(){
+    public Map<Integer, String> readCities(){
 		Map<Integer, String> citiesMap = new HashMap<>();
 		
         try {
@@ -40,7 +41,7 @@ class FileIOService {
 	}
 	
 	//schedule.txt : 평문 읽기
-	ArrayList<Schedule> readScehdule(){
+    public ArrayList<Schedule> readScehdule(){
 		ArrayList<Schedule> schedules = new ArrayList<>();
 		
         try {
@@ -56,14 +57,12 @@ class FileIOService {
 			return null;
         }
 	}
-	
-<<<<<<< Updated upstream
-=======
+
 	//역직렬화 읽기 : reservation.txt
 	public List<Reservation> readReservation(){
 		File file = new File("data/reservation.txt");
 		List<Reservation> reservations = new ArrayList<>();
-		
+
 		try (FileInputStream fis = new FileInputStream(file); ObjectInputStream ois = new ObjectInputStream(fis);){
 			while (true) {
 	            try {
@@ -77,10 +76,10 @@ class FileIOService {
 		} catch(IOException e){
 			e.printStackTrace();
 		}
-		
+
 		return reservations;
 	}
-	
+
 	// 직렬화 쓰기 : reservation.txt
 	public void writeReservation(Reservation reservation) {
 	    File file = new File("data/reservation.txt");
@@ -105,7 +104,7 @@ class FileIOService {
 	        e.printStackTrace();
 	    }
 	}
-	
+
 	//writeReservation()에서 사용되는 inner class : ObjectOutputStream은 append가 그냥 안됨(처음 생성시 스트림헤더를 파일에 쓰기 때문)
 	private class AppendableObjectOutputStream extends ObjectOutputStream {
 	    public AppendableObjectOutputStream(OutputStream out) throws IOException {
@@ -117,5 +116,4 @@ class FileIOService {
 	        reset(); // 헤더 안 씀
 	    }
 	}
->>>>>>> Stashed changes
 }
