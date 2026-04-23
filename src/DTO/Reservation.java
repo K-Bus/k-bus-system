@@ -2,7 +2,7 @@ package DTO;
 
 import java.io.Serializable;
 
-public class Reservation implements Serializable{
+public class Reservation implements Serializable {
 	private String userId;
 	private String date;
 	private int busRouteId;

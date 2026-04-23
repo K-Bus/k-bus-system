@@ -1,37 +1,47 @@
 package Service;
 
 import DTO.BusRoute;
+import DTO.Reservation;
 import DTO.Schedule;
 import DTO.Seat;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SearchService {
 
-    public List<String> searchBusRoute(int departure, int destination, List<Schedule> scheduleList) {
-        List<String> findBusRoute = new ArrayList<String>();
-
-        for (int i = 0; i < scheduleList.size(); i++) {
-            if (departure == scheduleList.get(i).getDeparture() && destination == scheduleList.get(i).getDestination()) {
-                findBusRoute.add(scheduleList.get(i).getDepartureTime() + ":00");
+	public List<Schedule> findScheduleListByDate(int departure, int destination, List<Schedule> scheduleList) {
+		List<Schedule> result = new ArrayList<>();
+	    for (Schedule schedule : scheduleList) {
+	        if (schedule.getDeparture() == departure && schedule.getDestination() == destination) {
+	            result.add(schedule);
+	        }
+	    }
+	    return result;
+	}
+    
+    public int findBusId(int departure, int destination, String date, List<Schedule> scheduleList) {
+        for (Schedule schedule : scheduleList) {
+            if (schedule.getDeparture() == departure
+                    && schedule.getDestination() == destination
+                    && schedule.getDepartureTime().equals(date)) {
+                return schedule.getBusRouteId();
             }
         }
-
-        return findBusRoute;
+        
+        return -1;
     }
+   
 
-    public Seat checkSeat(int departure, int destination, String select, BusRoute busRoute) {
-
-        Seat[] seat = busRoute.getSeat();
-        for (int i = 0; i < busRoute.getScheduleList().size(); i++) {
-            if (departure == busRoute.getScheduleList().get(i).getDeparture()
-                    && destination == busRoute.getScheduleList().get(i).getDestination()
-                    && select.equals(busRoute.getScheduleList().get(i).getDepartureTime())) {
-                return seat[i];
+    public Seat findSeats(String date, int busId, List<Seat> seatList) {
+        for (Seat seat : seatList) {
+            if (seat.getDate().equals(date) && seat.getBusId() == busId) {
+                return seat;
             }
         }
-
         return null;
     }
+
+
 }

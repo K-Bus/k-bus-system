@@ -16,7 +16,7 @@ public class Schedule {
 
     }
 	public int getBusRouteId() {
-		return busRouteId;
+		return busId;
 	}
 	public int getDeparture() {
 		return departure;
