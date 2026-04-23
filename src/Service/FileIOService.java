@@ -48,7 +48,7 @@ class FileIOService {
 			while ((line = ScheduleBufferedReader.readLine()) != null) {
 				String[] row = line.split(" ");
 			    //citiesMap.put(Integer.parseInt(row[0]), row[1]);
-				schedules.add(new Schedule (Integer.parseInt(row[0]), Integer.parseInt(row[1]), Integer.parseInt(row[2].substring(0, 2)), row[3]));
+				schedules.add(new Schedule (Integer.parseInt(row[0]), Integer.parseInt(row[1]), row[2].substring(0, 2), Integer.parseInt(row[3])));
 			}
 			return schedules;
         } catch (IOException e) {
