@@ -1,11 +1,21 @@
 package DTO;
 
+<<<<<<< Updated upstream
 public class Seat {
+=======
+import java.io.Serializable;
+import java.util.Arrays;
+
+public class Seat implements Serializable {
+>>>>>>> Stashed changes
     //false: 빈 좌석, true: 예약됨
     private boolean[] seatStatus;
+    private String date;
+    private int busRouteId;
 
-    public Seat() {
+    public Seat(String date, int busRouteId) {
         this.seatStatus = new boolean[30];
+        this.date = date;
     }
 
     public boolean[] getSeatStatus() {

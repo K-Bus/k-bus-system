@@ -8,12 +8,21 @@ public class BusRoute {
     private Seat seat;
     private String depatureTime;
 
+<<<<<<< Updated upstream
     public BusRoute(int busRouteId, int depature, int destination, Seat seat, String depatureTime) {
         this.busRouteId = busRouteId;
         this.depature = depature;
         this.destination = destination;
         this.seat = seat;
         this.depatureTime = depatureTime;
+=======
+    public BusRoute(List<Schedule> scheduleList) {
+        this.scheduleList = scheduleList;
+        seat = new Seat[scheduleList.size()];
+        for (int i = 0; i < seat.length; i++) {
+            seat[i] = new Seat("2026-04-23", 1);
+        }
+>>>>>>> Stashed changes
     }
 
     public int getBusRouteId() {
