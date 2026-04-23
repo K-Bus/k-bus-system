@@ -1,6 +1,8 @@
 package DTO;
 
-public class Reservation {
+import java.io.Serializable;
+
+public class Reservation implements Serializable{
 	private String userId;
 	private String date;
 	private int busRouteId;

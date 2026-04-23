@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -20,6 +19,8 @@ import java.util.Map;
 
 import DTO.Reservation;
 import DTO.Schedule;
+import DTO.Seat;
+
 
 public class FileIOService {
 
@@ -104,6 +105,51 @@ public class FileIOService {
 	        }
 
 	        oos.writeObject(reservation);
+	        oos.close();
+
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	public List<Seat> readSeats() {
+		File file = new File("data/seats.txt");
+		List<Seat> seats = new ArrayList<>();
+		
+		try (FileInputStream fis = new FileInputStream(file); ObjectInputStream ois = new ObjectInputStream(fis);){
+			while (true) {
+	            try {
+	            	seats.add((Seat) ois.readObject());
+	            } catch(ClassNotFoundException e) {
+	            	e.printStackTrace();
+	            } catch (EOFException e) {
+	            	break;
+	            }
+	        }
+		} catch(IOException e){
+			e.printStackTrace();
+		}
+		
+		return seats;
+	}
+	
+	public void writeSeat(Seat seat) {
+	    File file = new File("data/seats.txt");
+
+	    try {
+	        ObjectOutputStream oos;
+
+	        if (file.exists() && file.length() > 0) {
+	            // append
+	            oos = new AppendableObjectOutputStream(
+	                    new FileOutputStream(file, true));
+	        } else {
+	            // 처음 생성 → 헤더 필요
+	            oos = new ObjectOutputStream(
+	                    new FileOutputStream(file));
+	        }
+
+	        oos.writeObject(seat);
 	        oos.close();
 
 	    } catch (IOException e) {

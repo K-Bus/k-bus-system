@@ -1,8 +1,9 @@
 package DTO;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class Seat {
+public class Seat implements Serializable{
     //false: 빈 좌석, true: 예약됨
     private boolean[] seatStatus;
 
