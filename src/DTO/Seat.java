@@ -1,5 +1,7 @@
 package DTO;
 
+import java.util.Arrays;
+
 public class Seat {
     //false: 빈 좌석, true: 예약됨
     private boolean[] seatStatus;
@@ -19,5 +21,12 @@ public class Seat {
 
     public void setBooked(int seatNumber, boolean status) {
         this.seatStatus[seatNumber - 1] = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Seat{" +
+                "seatStatus=" + Arrays.toString(seatStatus) +
+                '}';
     }
 }
