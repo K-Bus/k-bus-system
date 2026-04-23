@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -53,7 +54,6 @@ public class FileIOService {
         	String line;
 			while ((line = ScheduleBufferedReader.readLine()) != null) {
 				String[] row = line.split(" ");
-			    //citiesMap.put(Integer.parseInt(row[0]), row[1]);
 				schedules.add(new Schedule (Integer.parseInt(row[0]), Integer.parseInt(row[1]), row[2].substring(0, 2), Integer.parseInt(row[3])));
 			}
 			return schedules;
@@ -95,13 +95,11 @@ public class FileIOService {
 	        ObjectOutputStream oos;
 
 	        if (file.exists() && file.length() > 0) {
-	            // append
-	            oos = new AppendableObjectOutputStream(
-	                    new FileOutputStream(file, true));
+	            oos = new AppendableObjectOutputStream(new FileOutputStream(file, true)); // append
 	        } else {
-	            // 처음 생성 → 헤더 필요
-	            oos = new ObjectOutputStream(
-	                    new FileOutputStream(file));
+	        	//1. 파일 없는 경우
+	        	//2. 파일 내용이 없는 경우
+	            oos = new ObjectOutputStream(new FileOutputStream(file)); // 처음 생성 → 헤더 필요
 	        }
 
 	        oos.writeObject(reservation);
@@ -140,19 +138,17 @@ public class FileIOService {
 	        ObjectOutputStream oos;
 
 	        if (file.exists() && file.length() > 0) {
-	            // append
-	            oos = new AppendableObjectOutputStream(
-	                    new FileOutputStream(file, true));
+	            oos = new AppendableObjectOutputStream(new FileOutputStream(file, true)); // append
 	        } else {
-	            // 처음 생성 → 헤더 필요
-	            oos = new ObjectOutputStream(
-	                    new FileOutputStream(file));
+	            oos = new ObjectOutputStream(new FileOutputStream(file)); // 처음 생성 → 헤더 필요
 	        }
 
 	        oos.writeObject(seat);
 	        oos.close();
-
-	    } catch (IOException e) {
+	    }catch(FileNotFoundException e) {
+	    	
+	    }
+	    catch (IOException e) {
 	        e.printStackTrace();
 	    }
 	}
