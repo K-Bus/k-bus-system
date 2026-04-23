@@ -1,17 +1,20 @@
 package DTO;
 
 public class Schedule {
-	private int busRouteId;
-	private int departure;
-	private int destination;
-	private String departureTime;
-	public Schedule(int busRouteId, int departure, int destination, String departureTime) {
+
+    private int departure;
+    private int destination;
+    private String departureTime;
+    private int busRouteId;
+
+	public Schedule(int departure, int destination, String departureTime, int busRouteId) {
 		super();
-		this.busRouteId = busRouteId;
-		this.departure = departure;
-		this.destination = destination;
+        this.departure = departure;
+        this.destination = destination;
 		this.departureTime = departureTime;
-	}
+        this.busRouteId = busRouteId;
+
+    }
 	public int getBusRouteId() {
 		return busRouteId;
 	}
@@ -24,6 +27,14 @@ public class Schedule {
 	public String getDepartureTime() {
 		return departureTime;
 	}
-	
-	
+
+    @Override
+    public String toString() {
+        return "Schedule{" +
+                "departure=" + departure +
+                ", destination=" + destination +
+                ", departureTime='" + departureTime + '\'' +
+                ", busRouteId=" + busRouteId +
+                '}';
+    }
 }

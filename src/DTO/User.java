@@ -1,13 +1,17 @@
 package DTO;
 
 public class User {
-    private String Email;
+    private String userId;
 
-    public User(String email) {
-        this.Email = email;
+    public User(String userId) {
+        this.userId = userId;
     }
 
-    public String getEmail() {
-        return Email;
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }
