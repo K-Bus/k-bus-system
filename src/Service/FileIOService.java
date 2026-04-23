@@ -86,7 +86,7 @@ public class FileIOService {
 	}
 	
 	//직렬화 쓰기 : reservation.txt
-	void writeReservation(Reservation reservation) {
+	public void writeReservation(Reservation reservation) {
 	    File file = new File("data/reservation.txt");
 
 	    try {
