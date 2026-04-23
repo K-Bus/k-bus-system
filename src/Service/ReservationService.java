@@ -20,18 +20,20 @@ public class ReservationService {
 	
 	public void makeReservation(String userId, String date, int busRouteId, int selectedSeatNumber) {
 		
-		// 에약이 안되는 경우
-		// TODO: 중복 로직 아닌 지 확인 필요
-		// Seat 클래스와 맞춰야 함
-		/*
-        if (Seat.getSeatState(date, busRouteId, selectedSeatNumber)) {
-			System.out.println("이미 예약된 좌석입니다.");
-			return;
-		}*/
+		// 에약이 안되는 경우		
+        try {
+			if (searchBusRouteSeat(date, busRouteId).isBooked(selectedSeatNumber)) {
+				System.out.println("이미 예약된 좌석입니다.");
+				return;
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		// 예약 생성하기
-        /*
-		Seat.setSeatState(date, busRouteId, selectedSeatNumber);
+        
+		SearchService.searchBusRouteSeat(date, busRouteId, selectedSeatNumber);
 		Reservation reservation = new Reservation(userId, date, busRouteId, selectedSeatNumber);
 		reservationList.add(reservation);
         // fileIOService.writeReservation(reservationList);
@@ -39,7 +41,7 @@ public class ReservationService {
 		System.out.println(userId + "님 예약 완료되었습니다.");
 		printReservationDetail(reservation);
 		System.out.println();
-	    */
+	    
 	}
 
 	public void checkReservation(String userId) {

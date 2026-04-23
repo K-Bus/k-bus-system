@@ -13,30 +13,25 @@ import Service.SearchService;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-
+    	
+        Scanner sc= new Scanner(System.in);
         FileIOService fs = new FileIOService();
-        /*
-        Reservation(String userId, String date, int busRouteId, int seatNumber)
-         */
-        fs.writeReservation(new Reservation("mm1234@naver.com", "2026-04-23", 1, 1));
-        fs.writeReservation(new Reservation("mn1234@naver.com", "2026-04-23", 1, 2));
-        fs.writeReservation(new Reservation("mb1234@naver.com", "2026-04-23", 1, 3));
+    
+        // init (DTO)
         Map<Integer, String> cities = fs.readCities();
         List<Schedule> scheduleList = fs.readScehdule();
         List<Reservation> reservationList = fs.readReservation();
+        List<Seat> seatList = null;
 
+        // init (Service)
         SearchService searchService = new SearchService();
         ReservationService reservationService = new ReservationService(reservationList, fs);
 
-
-        // if () {
-        // }
-        Seat[] seatList = new Seat[scheduleList.size()];
-
-        Scanner sc= new Scanner(System.in);
-
+        
         while (true) {
-            BusRoute busRoute = new BusRoute(scheduleList);
+        	
+            // 버스 노선 조회 및 선택
+        	
             System.out.print("날짜 입력 (yyyy-mm-dd) >> ");
             String date = sc.nextLine();
 
@@ -46,32 +41,33 @@ public class Main {
             System.out.print("목적지 >> ");
             int destination = Integer.parseInt(sc.nextLine());
 
-            // 1. ex) 서울 - 부산 해당하는 시간대가 들어있는 List
-            List<String> findBusRoute = searchService.searchBusRoute(departure, destination, scheduleList);
-            for (String s : findBusRoute) System.out.println(s);
-            System.out.print("예약을 원하는 시간을 입력해주세요 (00, 01) >> ");
+            List<Schedule> scheduleListByDate = searchService.findScheduleListByDate(departure, destination, scheduleList);
+            for (Schedule schedule : scheduleListByDate) {
+                System.out.println(schedule.getDepartureTime() + ":00");
+            }
+            
+            System.out.print("예약을 원하는 시간을 입력해주세요 (00, 01, 02 ... ) >> ");
             String departureTime = sc.nextLine();
 
-            // 2. 찾은 Seat field가 담고있어야 할 정보 (언제(date), 어느 버스(index가 사실 버스 노선번호), 좌석 예매 여부)
-            int busRouteId = searchService.findBusRouteId(departure, destination, departureTime, busRoute);
-            Seat seats = searchService.searchBusRouteSeat(busRouteId, busRoute);
+            int busId = searchService.findBusId(departure, destination, departureTime, scheduleList);
+            
+            
+            // 버스 좌석 조회
+            
+            Seat seats = searchService.findSeats(date, busId, seatList);
 
-            for (int i = 0; i < seats.getSeatStatus().length; i++) {
-                if (!seats.getSeatStatus()[i]) {
-                    System.out.print("[" + i+1 + "] ");
-                }
-                else {
-                    System.out.print("[" + "X" + "] ");
-                }
+            for (int i = 0; i < 30; i++) {
+            	if (seats.isBooked(i)) System.out.println("[X]");
+            	else System.out.println("[ ]");
             }
+            
             System.out.print("원하는 좌석 번호를 입력해주세요. (1~30) >> ");
-            int selectedSeatNumber= Integer.parseInt(sc.nextLine()) - 1;
+            int selectedSeatNumber= Integer.parseInt(sc.nextLine());
 
-            // ---예약로직---
             System.out.print("이메일 입력 >> ");
             String userId = sc.nextLine();
 
-            reservationService.makeReservation(userId, date, busRouteId, selectedSeatNumber);
+            reservationService.makeReservation(userId, date, busId, selectedSeatNumber);
         }
     }
 }
