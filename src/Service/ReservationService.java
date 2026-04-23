@@ -2,6 +2,7 @@ package Service;
 
 import DTO.Reservation;
 import DTO.BusRoute;
+import DTO.Seat;
 import java.util.List;    
 import java.util.stream.Collectors;
 
@@ -15,8 +16,19 @@ public class ReservationService {
 		this.fileIOService=fileIOService;
 	}
 	
-	public void makeReservation(String userId, BusRoute busRoute) {
-		Reservation reservation = new Reservation(userId, busRoute.getBusRouteId());
+	public void makeReservation(String userId, String date, int busRouteId, int selectedSeatNumber) {
+		
+		// 에약이 안되는 경우
+		// TODO: 중복 로직 아닌 지 확인 필요
+		// Seat 클래스와 맞춰야 함
+		if (Seat.getSeatState(date, busRouteId, selectedSeatNumber)) {
+			System.out.println("이미 예약된 좌석입니다.");
+			return;
+		}
+		
+		// 예약 생성하기
+		Seat.setSeatState(date, busRouteId, selectedSeatNumber);
+		Reservation reservation = new Reservation(userId, date, busRouteId, selectedSeatNumber);
 		reservationList.add(reservation);
 		fileIOService.writeReservation(reservationList);
 		
@@ -48,6 +60,6 @@ public class ReservationService {
 	
 	public void printReservationDetail(Reservation reservation) {
 		// TODO: 예약 내역 출력 구현
-		System.out.printf("[%s->%s] %s월 %s일 %s %d번 좌석\n", "대구", "부산", 0,0,0,0);
+		System.out.printf("[%s->%s] %s %s번 버스 %d번 좌석\n", "대구", "부산", reservation.getDate(), reservation.getBusRouteId(), reservation.getSeatNumber());
 	}
 }
