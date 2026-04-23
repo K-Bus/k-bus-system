@@ -6,7 +6,7 @@ public class Reservation {
 	
 	public Reservation() {}
 	
-	private Reservation(String userId, int busRouteId) {
+	public Reservation(String userId, int busRouteId) {
         this.userId = userId;
         this.busRouteId = busRouteId;
     }
