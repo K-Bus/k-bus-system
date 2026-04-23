@@ -1,4 +1,4 @@
-package Service;
+﻿package Service;
 
 import java.io.*;
 
@@ -12,6 +12,8 @@ import java.util.Map;
 
 import DTO.Reservation;
 import DTO.Schedule;
+import DTO.Seat;
+
 
 public class FileIOService {
     private final BufferedReader CityBufferedReader;
@@ -37,6 +39,8 @@ public class FileIOService {
         } catch (IOException e) {
 			e.printStackTrace();
 			return null;
+        } finally {
+        	CityBufferedReader.close();
         }
 	}
 	
@@ -55,6 +59,8 @@ public class FileIOService {
         } catch (IOException e) {
 			e.printStackTrace();
 			return null;
+        } finally {
+        	ScheduleBufferedReader.close();
         }
 	}
 
