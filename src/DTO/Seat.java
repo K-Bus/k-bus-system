@@ -3,16 +3,14 @@ package DTO;
 import java.io.Serializable;
 import java.util.Arrays;
 
-public class Seat implements Serializable{
-    //false: 빈 좌석, true: 예약됨
-    private boolean[] seatStatus;
-
 public class Seat implements Serializable {
     private boolean[] seatStatus;
     private String date;
     private int busId;
     
-	public Seat() {
+	public Seat(String date, int busId) {
+        this.date = date;
+        this.busId = busId;
         this.seatStatus = new boolean[30];
     }
 
