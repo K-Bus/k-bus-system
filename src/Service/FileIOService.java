@@ -1,4 +1,4 @@
-﻿package Service;
+package Service;
 
 import java.io.BufferedReader;
 import java.io.EOFException;
@@ -110,45 +110,55 @@ public class FileIOService {
         }
     }
 
+    public void writeReservations(List<Reservation> reservationList) {
+        File file = new File("data/reservation.txt");
+
+        try (ObjectOutputStream oos =
+                     new ObjectOutputStream(new FileOutputStream(file))) {
+
+            for (Reservation r : reservationList) {
+                oos.writeObject(r);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public List<Seat> readSeats() {
         File file = new File("data/seats.txt");
         List<Seat> seats = new ArrayList<>();
 
-        try (FileInputStream fis = new FileInputStream(file); ObjectInputStream ois = new ObjectInputStream(fis);){
+        if (!file.exists()) {
+            return seats; // 파일 없으면 빈 리스트 반환
+        }
+
+        try (ObjectInputStream ois =
+                     new ObjectInputStream(new FileInputStream(file))) {
             while (true) {
                 try {
                     seats.add((Seat) ois.readObject());
-                } catch(ClassNotFoundException e) {
-                    e.printStackTrace();
                 } catch (EOFException e) {
                     break;
                 }
             }
-        } catch(IOException e){
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-
         return seats;
     }
 
-    public void writeSeat(Seat seat) {
+    public void writeSeats(List<Seat> seatList) {
         File file = new File("data/seats.txt");
 
-        try {
-            ObjectOutputStream oos;
+        try (ObjectOutputStream oos =
+                     new ObjectOutputStream(new FileOutputStream(file))) { // ❗ append 없음
 
-            if (file.exists() && file.length() > 0) {
-                oos = new AppendableObjectOutputStream(new FileOutputStream(file, true)); // append
-            } else {
-                oos = new ObjectOutputStream(new FileOutputStream(file)); // 처음 생성 → 헤더 필요
+            for (Seat seat : seatList) {
+                oos.writeObject(seat);
             }
 
-            oos.writeObject(seat);
-            oos.close();
-        }catch(FileNotFoundException e) {
-
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

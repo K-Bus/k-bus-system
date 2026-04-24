@@ -5,17 +5,17 @@ public class Schedule {
     private int departure;
     private int destination;
     private String departureTime;
-    private int busRouteId;
+    private int busId;
 
 	public Schedule(int departure, int destination, String departureTime, int busRouteId) {
 		super();
         this.departure = departure;
         this.destination = destination;
 		this.departureTime = departureTime;
-        this.busRouteId = busRouteId;
+        this.busId = busRouteId;
 
     }
-	public int getBusRouteId() {
+	public int getBusId() {
 		return busId;
 	}
 	public int getDeparture() {
@@ -34,7 +34,7 @@ public class Schedule {
                 "departure=" + departure +
                 ", destination=" + destination +
                 ", departureTime='" + departureTime + '\'' +
-                ", busRouteId=" + busRouteId +
+                ", busRouteId=" + busId +
                 '}';
     }
 }

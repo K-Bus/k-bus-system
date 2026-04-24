@@ -32,3 +32,8 @@ bin/
 *.iml
 
 .idea/
+
+
+# Data files
+/data/reservation.txt
+/data/seat.txt

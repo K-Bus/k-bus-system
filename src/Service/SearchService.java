@@ -1,13 +1,10 @@
 package Service;
 
-import DTO.BusRoute;
-import DTO.Reservation;
 import DTO.Schedule;
 import DTO.Seat;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class SearchService {
 
@@ -21,15 +18,14 @@ public class SearchService {
 	    return result;
 	}
     
-    public int findBusId(int departure, int destination, String date, List<Schedule> scheduleList) {
+    public int findBusId(int departure, int destination, String departureTime, List<Schedule> scheduleList) {
         for (Schedule schedule : scheduleList) {
             if (schedule.getDeparture() == departure
                     && schedule.getDestination() == destination
-                    && schedule.getDepartureTime().equals(date)) {
-                return schedule.getBusRouteId();
+                    && schedule.getDepartureTime().equals(departureTime)) {
+                return schedule.getBusId();
             }
         }
-        
         return -1;
     }
    

@@ -49,4 +49,13 @@ public class Reservation implements Serializable {
 		this.seatNumber = seatNumber;
 	}
 
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "userId='" + userId + '\'' +
+                ", date='" + date + '\'' +
+                ", busRouteId=" + busRouteId +
+                ", seatNumber=" + seatNumber +
+                '}';
+    }
 }
